@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Хомяк в курсе | Дневник Черика + Лабиринт</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<div class="progress-seeds">
+<div class="seed-progress-fill" id="seedProgress"></div>
+</div>
+
+<div id="mainSite">
+    <header class="header">
+        <div class="logo-area">
+            <div class="logo">
+                <span>Хомяк в курсе</span>
+                <img class="hamster-icon" src="images/hamster.jpg" alt="Хомяк Черик">
+           </div>
+            <div class="slogan">🐹 Всё самое важное</div>
+        </div>
+        <div class="menu">
+            <a href="#diary-strip-header">📖 дневник</a>
+            <a href="https://cloud.mail.ru/public/zNrr/7me86LWv7" target="_blank">🎬 видео</a>
+            <a href="https://cloud.mail.ru/public/u1P4/WMk51YPA3" target="_blank">📸 фотоохота</a>
+            <a href="#qa">❓ вопросы</a>
+        </div>
+</div>
+    </header>
+
+    <div class="hero">
+        <div class="hero-text">
+            <h1>Привет, я Черик!</h1>
+            <p>Джунгарский хомяк, блогер и главный эксперт по опилкам. Помоги мне пройти лабиринт к семечке!</p>
+        </div>
+        <div class="hero-img">
+            <img src="images\hamster.jpg" alt="хомяк Черик">
+        </div>
+    </div>
+
+    <div class="seed-box">
+        <i class="fas fa-seedling"></i>
+        <h3><i class="fas fa-hand-holding-heart"></i> Семечки благодарности</h3>
+        <p>Поддержите блог хомяка вкусняшкой! Каждая семечка идёт на новые игрушки и обзоры.</p>
+        <div class="seed-stats">
+            <i class="fas fa-seedling"></i>
+            <span id="seedCount">128</span>
+            <span>семечек в запасе</span>
+        </div>
+        <button id="donateSeedBtn" class="seed-btn"><i class="fas fa-hand-holding-heart"></i> Угостить семечкой</button>
+    </div>
+
+    <!-- ИНТЕРАКТИВНЫЙ ЛАБИРИНТ -->
+    <div class="maze-game">
+        <h3><i class="fas fa-arrow-pointer"></i> 🐹 Лабиринт — проведи Черика к семечке!</h3>
+        <div class="maze-container">
+            <canvas id="mazeCanvas" width="500" height="350" style="width:100%; height:auto; max-width:500px; border:3px solid #e7cfb2; border-radius:20px;"></canvas>
+        </div>
+        <div class="maze-controls">
+            <button class="maze-btn" id="resetMazeBtn"><i class="fas fa-undo-alt"></i> Сброс</button>
+            <button class="maze-btn" id="hintBtn"><i class="fas fa-lightbulb"></i> Подсказка</button>
+        </div>
+        <div id="mazeMessage" class="maze-tip"></div>
+        <p class="maze-tip">🚀 На телефоне: веди пальцем по экрану | На ПК: стрелки клавиатуры или перетаскивание мышкой</p>
+    </div>
+
+    <div class="diary-strip">
+        <div class="diary-strip-header" id="diary-strip-header">
+            <h2>📝 Свежие мысли из дневника 🐹</h2>
+        </div>
+        <div class="diary-navigation">
+            <button class="nav-diary-btn" id="prevPageBtn" disabled>◀ Назад</button>
+            <span class="page-indicator" id="pageIndicatorStrip">Страница 1</span>
+            <button class="nav-diary-btn" id="nextPageBtn" disabled>Вперед ▶</button>
+        </div>
+        <div id="stripCardsContainer" class="strip-cards">
+            <div class="loading-strip">⏳ Загрузка записей...</div>
+        </div>
+        <div class="diary-footer-link">
+            <div id="openFullDiaryBtn" class="full-diary-link">📖 Перейти в полный дневник →</div>
+        </div>
+    </div>
+</div>
+
+<div id="diaryFullApp" style="display: none;">
+    <div class="diary-container">
+        <div class="diary-header">
+            <a id="backToMainFromDiary" class="back-home">← На главную</a>
+            <h1>📔 Полный дневник Черика</h1>
+            <div class="reader-badge">🔖 Режим читателя</div>
+        </div>
+        <div class="pagination-controls">
+            <button class="pagination-btn" id="fullPrevBtn" disabled>◀ Предыдущая</button>
+            <span class="page-info" id="fullPageInfo">Страница 1</span>
+            <button class="pagination-btn" id="fullNextBtn" disabled>Следующая ▶</button>
+        </div>
+        <div id="fullEntriesList" class="entries-grid-readonly"></div>
+    </div>
+</div>
+
+<!-- ВОПРОСЫ ОТ ПОДПИСЧИКОВ -->
+<div id="qa" class="qa-block">
+    <h2><i class="fas fa-comment-dots"></i> Вопросы от подписчиков</h2>
+    <div id="qaQuestionsList" class="qa-questions">
+        <div class="qa-card"><i class="fas fa-quote-left"></i> Черик, почему ты постоянно запасаешь еду? — <strong>Лиза</strong><br>— Потому что хомячьи законы! Всегда должен быть НЗ!</div>
+        <div class="qa-card"><i class="fas fa-quote-left"></i> Как часто менять опилки? — <strong>Артём</strong><br>— Раз в 5-7 дней, но убираю точечно каждый день. Чистота — залог здоровья!</div>
+        <div class="qa-card"><i class="fas fa-quote-left"></i> Можно ли купать хомяка? — <strong>Марина</strong><br>— Только в песке! Вода — табу. У меня песочная ванна 🏖️</div>
+    </div>
+    
+    <div class="qa-form">
+        <h3><i class="fas fa-pen-alt"></i> Задай свой вопрос Черику!</h3>
+        <form id="qaForm">
+            <div class="form-group">
+                <input type="text" id="qaName" placeholder="Ваше имя" required>
+            </div>
+            <div class="form-group">
+                <textarea id="qaQuestion" rows="3" placeholder="Ваш вопрос..." required></textarea>
+            </div>
+            <button type="submit" class="qa-submit-btn"><i class="fas fa-paper-plane"></i> Отправить вопрос</button>
+            <div id="qaFormMessage" class="qa-message"></div>
+        </form>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="seed-counter">
+        <i class="fas fa-seedling"></i> Съедено семечек: <span id="seedCountFooter">128</span>
+    </div>
+    <p><i class="far fa-copyright"></i> Хомяк в курсе, 2026. Блог джунгарика Черика. Все права защищены (и мои запасы тоже).</p>
+    <p style="font-size:0.8rem;">🐹 Сделано с любовью и овсом в щеках</p>
+</footer>
+
+<script src='new.js'></script>
+</body>
+</html>
