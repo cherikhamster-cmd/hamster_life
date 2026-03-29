@@ -1,9 +1,10 @@
-    // ============ GOOGLE SHEETS КОНФИГУРАЦИЯ ============
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwkWbLCOfw6PPZOIwL05_NRA5wK9gAjjsgkyKcFkAc_lbI4FovbIuCCgSIwJd9B3Q3-lQ/exec';
-    //https://script.google.com/macros/s/AKfycbxFC8U_0BfYoMpY_FlzrHLmysqX3Rb0MeUYOf6r54UDDePJMS2c4ySNC5rrJwgqVexiSw/exec';
-    const QA_SHEET_ID = '1B56gBPEpkmNdGnZ3N2YlGznMq_nHLSuBJEic3erWtDs';
-    const QA_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwda2cM0tbBI9GzZHEJvuohCzelI7Yt53arP3zbxtdYojxN39hSV2qE7UUcQ7wHF6IFPg/exec';
-    
+// ============ GOOGLE SHEETS КОНФИГУРАЦИЯ ============
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwkWbLCOfw6PPZOIwL05_NRA5wK9gAjjsgkyKcFkAc_lbI4FovbIuCCgSIwJd9B3Q3-lQ/exec';
+const QA_SHEET_ID = '1H-PeY-hJKNuape3fUyOScaZrdGaHHocFiN_e0Cu4lgk';  // ✅ Ваш реальный ID!
+const QA_SHEET_NAME = 'Лист1';  // ✅ Имя листа (точно как в таблице!)
+const QA_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwda2cM0tbBI9GzZHEJvuohCzelI7Yt53arP3zbxtdYojxN39hSV2qE7UUcQ7wHF6IFPg/exec';
+
+
     let allEntries = [];
     let currentStripPage = 1, currentFullPage = 1;
     const ITEMS_PER_STRIP = 3, ITEMS_PER_FULL = 6;
@@ -229,15 +230,33 @@
     document.getElementById('hintBtn')?.addEventListener('click', () => showHint());
     
     // ============ ДНЕВНИК ============
-    async function loadEntriesFromSheets() {
-        try {
-            const res = await fetch(`${SCRIPT_URL}?action=get`);
-            const data = await res.json();
-            let entries = Array.isArray(data) ? data : (data.entries || []);
-            allEntries = entries.filter(e => e.date && e.text).sort((a,b)=>new Date(b.date)-new Date(a.date));
-            renderAll();
-        } catch(e) { console.error(e); allEntries = []; renderAll(); }
+async function loadEntriesFromSheets() {
+    try {
+        const res = await fetch(
+            `${SCRIPT_URL}?action=get&sheetId=${QA_SHEET_ID}&sheetName=${encodeURIComponent(QA_SHEET_NAME)}`
+        );
+        const data = await res.json();
+        
+        console.log('📦 Ответ:', data); // 🔍 Отладка
+        
+        let entries = [];
+        if (data?.status === 'success') {
+            entries = data.entries || [];
+        } else if (Array.isArray(data)) {
+            entries = data;
+        }
+        
+        allEntries = entries
+            .filter(e => e?.date && e?.text)
+            .sort((a,b) => new Date(b.date) - new Date(a.date));
+        renderAll();
+    } catch(e) { 
+        console.error('❌ Ошибка:', e); 
+        allEntries = []; 
+        renderAll(); 
     }
+}
+
     
     function renderStripCards() {
         const container = document.getElementById('stripCardsContainer');
@@ -315,7 +334,9 @@
             formData.append('name', name);
             formData.append('question', question);
             formData.append('timestamp', new Date().toISOString());
+                        // ✅ Стало:
             formData.append('sheetId', QA_SHEET_ID);
+            formData.append('sheetName', 'Лист1');  // ← Добавить имя листа!
             
             const response = await fetch(QA_SCRIPT_URL, {
                 method: 'POST',
