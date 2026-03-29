@@ -1,5 +1,5 @@
     // ============ GOOGLE SHEETS КОНФИГУРАЦИЯ ============
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyw5U8GZ4DwSmgKQ_hXQ_4-OucHtT3ggWDEHB3DwDPJVEDAswjvgDjHIwRPDAVqgXIrwA/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwkWbLCOfw6PPZOIwL05_NRA5wK9gAjjsgkyKcFkAc_lbI4FovbIuCCgSIwJd9B3Q3-lQ/exec';
     //https://script.google.com/macros/s/AKfycbxFC8U_0BfYoMpY_FlzrHLmysqX3Rb0MeUYOf6r54UDDePJMS2c4ySNC5rrJwgqVexiSw/exec';
     const QA_SHEET_ID = '1B56gBPEpkmNdGnZ3N2YlGznMq_nHLSuBJEic3erWtDs';
     const QA_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwda2cM0tbBI9GzZHEJvuohCzelI7Yt53arP3zbxtdYojxN39hSV2qE7UUcQ7wHF6IFPg/exec';
